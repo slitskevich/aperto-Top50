@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     let kBerlinWOEID = 638242
     let kGlobalWOEID = 1
     
+    @IBOutlet weak var reloadButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     
     let data = TrendsData()
@@ -23,25 +24,33 @@ class ViewController: UIViewController, UITableViewDelegate {
 
         tableView.delegate = self
         tableView.dataSource = data
-
+        
+        loadData()
+    }
+    
+    func loadData() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        data.reload() {(error: NSError?) in
+        reloadButton.isEnabled = false
+        data.reload() {(error: Error?) in
             DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.reloadButton.isEnabled = true
                 if let loadError = error {
                     self.presentError(error: loadError)
-                } else {
-                    self.tableView.reloadData()
                 }
+                self.title = self.data.location?.name
+                self.tableView.reloadData()
             }
         }
     }
     
-    func presentError(error: NSError) {
-        let alert = UIAlertController(title: "Error", message: "\(error)", preferredStyle: .alert)
+    @IBAction func reload() {
+        loadData()
+    }
+    
+    func presentError(error: Error) {
+        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .cancel))
         present(alert, animated: true, completion: nil)
     }
-
 }
-

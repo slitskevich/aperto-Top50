@@ -9,11 +9,25 @@
 import Foundation
 import TwitterKit
 
-class TwitterService {
+enum TrendsError: Error {
+    case trendsRequestError
+    case noTrendsError
+}
+
+extension TrendsError : LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        default:
+            return NSLocalizedString("trends.load.failure", comment: "Trends load failure message")
+        }
+    }
+}
+
+class TrendsService {
     let API_URL =  "https://api.twitter.com/1.1"
     let TRENDS_PATH = "trends/place.json"
 
-    func loadTrends(locationId: String, handler: @escaping (([Topic]?, NSError?) -> ())) {
+    func loadTrends(locationId: String, handler: @escaping (([Topic]?, Error?) -> ())) {
         let url = "\(API_URL)/\(TRENDS_PATH)"
         
         let client = TWTRAPIClient()
@@ -22,11 +36,8 @@ class TwitterService {
         
         let request = client.urlRequest(withMethod: "GET", urlString: url, parameters: params, error: &clientError)
         
-        client.sendTwitterRequest(request) { (response, data, connectionError) -> Void in
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            if connectionError != nil {
-                print("Error: \(String(describing: connectionError))")
-            } else {
+        client.sendTwitterRequest(request) { (response, data, error) -> Void in
+            if error == nil {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data!, options: [])
                     if let trends = (json as? [AnyObject])?[0]["trends"] as? [[String: AnyObject]] {
@@ -36,11 +47,14 @@ class TwitterService {
                         }
                         handler(result, nil)
                     } else {
-                        handler(nil, nil)
+                        handler(nil, TrendsError.noTrendsError)
                     }
-                } catch let jsonError as NSError {
-                    handler(nil, jsonError)
+                } catch let jsonError {
+                    print(jsonError)
+                    handler(nil, TrendsError.trendsRequestError)
                 }
+            } else {
+                handler(nil, TrendsError.trendsRequestError)
             }
         }
     }

@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  Top50
+
+  Created by slava litskevich on 03.04.18.
+  Copyright © 2018 slava litskevich. All rights reserved.
+*/
+
+/* Trends load failure message */
+"trends.load.failure" = "Failed to load trending topics";
+
+/* Location load failure message */
+"location.load.failure" = "Failed to retrieve current user location";
+
+/* Location service disabled message */
+"location.disabled" = "Can't determine current location - please enable Location Service in Settings";
+
+/* Default action */
+"OK" = "Ok";
