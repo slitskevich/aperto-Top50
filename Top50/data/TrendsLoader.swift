@@ -10,9 +10,6 @@ import Foundation
 
 class TrendsLoader {
     
-    let twitterService = TrendsService()
-    let locationService = LocationService()
-
     let trendsData: TrendsData
     
     init(trendsData: TrendsData) {
@@ -21,10 +18,10 @@ class TrendsLoader {
     
     func reload(handler: @escaping ((Error?) -> ())) {
         trendsData.reset()
-        locationService.getGeoLocation() {[weak self](location: Location?, error: Error?) in
+        loadLocation() {[weak self](location: Location?, error: Error?) in
             self?.trendsData.location = location
             if let currentLocation = location {
-                self?.twitterService.loadTrends(locationId: currentLocation.locationId) {(topics: [Topic]?, error: Error?) in
+                self?.loadTrends(locationId: currentLocation.locationId) {(topics: [Topic]?, error: Error?) in
                     self?.trendsData.topics = topics
                     handler(error)
                 }
@@ -32,6 +29,14 @@ class TrendsLoader {
                 handler(error)
             }
         }
+    }
+    
+    func loadLocation(loadHandler: @escaping ((Location?, Error?) -> ())) {
+        LocationService().getGeoLocation(handler: loadHandler)
+    }
+    
+    func loadTrends(locationId: String, loadHandler: @escaping (([Topic]?, Error?) -> ())) {
+        TrendsService().loadTrends(locationId: locationId, handler: loadHandler)
     }
     
 }
