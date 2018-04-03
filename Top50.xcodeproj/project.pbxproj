@@ -11,7 +11,6 @@
 		F90D06902072903D0088EB70 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D068F2072903D0088EB70 /* Topic.swift */; };
 		F90D0692207290A80088EB70 /* TrendsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D0691207290A80088EB70 /* TrendsService.swift */; };
 		F90D069420729A9E0088EB70 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D069320729A9E0088EB70 /* LocationService.swift */; };
-		F90D069620737D470088EB70 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D069520737D470088EB70 /* Configuration.swift */; };
 		F90D069920737F180088EB70 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D069820737F180088EB70 /* Location.swift */; };
 		F90D069C207383780088EB70 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F90D069B207383780088EB70 /* Localizable.strings */; };
 		F9D40592206E705C005BE888 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D40591206E705C005BE888 /* AppDelegate.swift */; };
@@ -68,7 +67,6 @@
 		F90D068F2072903D0088EB70 /* Topic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
 		F90D0691207290A80088EB70 /* TrendsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsService.swift; sourceTree = "<group>"; };
 		F90D069320729A9E0088EB70 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		F90D069520737D470088EB70 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		F90D069820737F180088EB70 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		F90D069B207383780088EB70 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		F9D4058E206E705C005BE888 /* Top50.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Top50.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +135,14 @@
 			path = services;
 			sourceTree = "<group>";
 		};
+		F90D069D20738BD80088EB70 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				F90D068D20728F3E0088EB70 /* TrendsData.swift */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
 		F9D40585206E705C005BE888 = {
 			isa = PBXGroup;
 			children = (
@@ -170,10 +176,9 @@
 				F9D40598206E705C005BE888 /* Assets.xcassets */,
 				F9D4059A206E705C005BE888 /* LaunchScreen.storyboard */,
 				F9D4059D206E705C005BE888 /* Info.plist */,
-				F90D068D20728F3E0088EB70 /* TrendsData.swift */,
+				F90D069D20738BD80088EB70 /* data */,
 				F90D069720737F0C0088EB70 /* models */,
 				F90D069A207381790088EB70 /* services */,
-				F90D069520737D470088EB70 /* Configuration.swift */,
 				F90D069B207383780088EB70 /* Localizable.strings */,
 			);
 			path = Top50;
@@ -337,7 +342,6 @@
 			files = (
 				F9D40594206E705C005BE888 /* ViewController.swift in Sources */,
 				F90D06902072903D0088EB70 /* Topic.swift in Sources */,
-				F90D069620737D470088EB70 /* Configuration.swift in Sources */,
 				F90D0692207290A80088EB70 /* TrendsService.swift in Sources */,
 				F9D40592206E705C005BE888 /* AppDelegate.swift in Sources */,
 				F90D069920737F180088EB70 /* Location.swift in Sources */,

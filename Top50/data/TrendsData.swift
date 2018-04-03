@@ -19,17 +19,23 @@ class TrendsData: NSObject, UITableViewDataSource {
     var location: Location?
     
     func reload(handler: @escaping ((Error?) -> ())) {
-        locationService.getCurrentLocation() {(location: Location?, error: Error?) in
-            self.location = location
+        reset()
+        locationService.getGeoLocation() {[weak self](location: Location?, error: Error?) in
+            self?.location = location
             if let currentLocation = location {
-                self.twitterService.loadTrends(locationId: currentLocation.locationId) {(topics: [Topic]?, error: Error?) in
-                    self.topics = topics
+                self?.twitterService.loadTrends(locationId: currentLocation.locationId) {(topics: [Topic]?, error: Error?) in
+                    self?.topics = topics
                     handler(error)
                 }
             } else {
                 handler(error)
             }
         }
+    }
+    
+    func reset() {
+        location = nil
+        topics?.removeAll()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

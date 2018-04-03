@@ -27,35 +27,65 @@ extension LocationError : LocalizedError {
 }
 
 class LocationService {
-    func getCurrentLocation(handler: @escaping ((Location?, Error?) -> ())) {
-        if let location = CLLocationManager().location {
-            let baseURL = "https://api.flickr.com/services/rest/?&method=flickr.places.findByLatLon"
-            let apiString = "&api_key=\(Configuration.shared.flickrApiKey)"
-            let searchString = "&lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&format=json&nojsoncallback=?"
-            
-            let requestURL = URL(string: baseURL + apiString + searchString)!
-            URLSession.shared.dataTask(with: requestURL, completionHandler: { data, response, error -> Void in
-                if (error == nil) {
-                    do {
-                        let result = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary
-                        if let places = (result!["places"] as? [String: AnyObject]),
-                            let place = (places["place"] as? [[String: AnyObject]])?[0],
-                            let id = place["woeid"] as? String,
-                            let name = place["name"] as? String {
-                            handler(Location(locationId: id, name: name), nil)
-                        } else {
-                            handler(nil, LocationError.noLocationError)
-                        }
-                    } catch let jsonError {
-                        print(jsonError)
-                        handler(nil, LocationError.locationRequestError)
-                    }
-                } else {
-                    handler(nil, LocationError.locationRequestError)
-                }
-            }).resume()
-        } else {
+    
+    
+    func getGeoLocation(handler: @escaping ((Location?, Error?) -> ())) {
+        let REQUEST_FORMAT = "https://search.yahoo.com/sugg/gossip/gossip-gl-location/?appid=weather&output=sd1&p2=pt&command=%@"
+
+        if !CLLocationManager.locationServicesEnabled() {
             handler(nil, LocationError.locationServiceDisabledError)
+        } else {
+            if let location = CLLocationManager().location {
+                CLGeocoder().reverseGeocodeLocation(location) {(placemarks: [CLPlacemark]?, error: Error?) in
+                    if let locationPlacemarks = placemarks, locationPlacemarks.count > 0, let locality = locationPlacemarks[0].locality {
+                        URLSession.shared.dataTask(with: URL(string: String(format: REQUEST_FORMAT, locality))!, completionHandler: {(data: Data?, response: URLResponse?, error: Error?) -> () in
+                            if (error == nil) {
+                                do {
+                                    let location = try data?.parseLocationResponseData()
+                                    if location != nil {
+                                        handler(location, nil)
+                                    } else {
+                                        handler(nil, LocationError.noLocationError)
+                                    }
+                                } catch {
+                                    handler(nil, LocationError.locationRequestError)
+                                }
+                            } else {
+                                handler(nil, LocationError.locationRequestError)
+                            }
+                        }).resume()
+                    } else {
+                        handler(nil, LocationError.noLocationError)
+                    }
+                }
+            }
         }
+        
+    }
+}
+
+extension Data {
+    func parseLocationResponseData() throws -> Location? {
+        let ID_KEY = "woeid"
+        let NAME_KEY = "n"
+        let QUERY_SEPARATORS = "=&"
+
+        let result = try JSONSerialization.jsonObject(with: self, options: []) as? NSDictionary
+        if let places = (result!["r"] as? [[String: AnyObject]]), places.count > 0, let d = places[0]["d"] as? String {
+            let comps = d.components(separatedBy: CharacterSet.init(charactersIn: QUERY_SEPARATORS))
+            var woeid: String? = nil
+            var name: String? = nil
+            for i in 0 ..< comps.count {
+                if comps[i] == ID_KEY && i < comps.count - 1 {
+                    woeid = comps[i + 1]
+                } else if comps[i] == NAME_KEY && i < comps.count - 1 {
+                    name = comps[i + 1]
+                }
+            }
+            if let locationId = woeid {
+                return Location(locationId: locationId, name: name)
+            }
+        }
+        return nil
     }
 }

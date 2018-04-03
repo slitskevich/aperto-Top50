@@ -31,15 +31,15 @@ class ViewController: UIViewController, UITableViewDelegate {
     func loadData() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         reloadButton.isEnabled = false
-        data.reload() {(error: Error?) in
+        data.reload() {[weak self](error: Error?) in
             DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                self.reloadButton.isEnabled = true
+                self?.reloadButton.isEnabled = true
                 if let loadError = error {
-                    self.presentError(error: loadError)
+                    self?.presentError(error: loadError)
                 }
-                self.title = self.data.location?.name
-                self.tableView.reloadData()
+                self?.title = self?.data.location?.name
+                self?.tableView.reloadData()
             }
         }
     }
