@@ -13,6 +13,7 @@
 		F90D069420729A9E0088EB70 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D069320729A9E0088EB70 /* LocationService.swift */; };
 		F90D069920737F180088EB70 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D069820737F180088EB70 /* Location.swift */; };
 		F90D069C207383780088EB70 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F90D069B207383780088EB70 /* Localizable.strings */; };
+		F90D069F20739AA60088EB70 /* TrendsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D069E20739AA60088EB70 /* TrendsLoader.swift */; };
 		F9D40592206E705C005BE888 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D40591206E705C005BE888 /* AppDelegate.swift */; };
 		F9D40594206E705C005BE888 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D40593206E705C005BE888 /* ViewController.swift */; };
 		F9D40597206E705C005BE888 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9D40595206E705C005BE888 /* Main.storyboard */; };
@@ -69,6 +70,7 @@
 		F90D069320729A9E0088EB70 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		F90D069820737F180088EB70 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		F90D069B207383780088EB70 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		F90D069E20739AA60088EB70 /* TrendsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsLoader.swift; sourceTree = "<group>"; };
 		F9D4058E206E705C005BE888 /* Top50.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Top50.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9D40591206E705C005BE888 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F9D40593206E705C005BE888 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				F90D068D20728F3E0088EB70 /* TrendsData.swift */,
+				F90D069E20739AA60088EB70 /* TrendsLoader.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				F90D06902072903D0088EB70 /* Topic.swift in Sources */,
 				F90D0692207290A80088EB70 /* TrendsService.swift in Sources */,
 				F9D40592206E705C005BE888 /* AppDelegate.swift in Sources */,
+				F90D069F20739AA60088EB70 /* TrendsLoader.swift in Sources */,
 				F90D069920737F180088EB70 /* Location.swift in Sources */,
 				F90D069420729A9E0088EB70 /* LocationService.swift in Sources */,
 				F90D068E20728F3E0088EB70 /* TrendsData.swift in Sources */,

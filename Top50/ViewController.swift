@@ -11,16 +11,16 @@ import TwitterKit
 
 class ViewController: UIViewController, UITableViewDelegate {
     
-    let kBerlinWOEID = 638242
-    let kGlobalWOEID = 1
-    
     @IBOutlet weak var reloadButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     
     let data = TrendsData()
+    var loader: TrendsLoader?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loader = TrendsLoader(trendsData: data)
 
         tableView.delegate = self
         tableView.dataSource = data
@@ -31,7 +31,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     func loadData() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         reloadButton.isEnabled = false
-        data.reload() {[weak self](error: Error?) in
+        loader?.reload() {[weak self](error: Error?) in
             DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 self?.reloadButton.isEnabled = true

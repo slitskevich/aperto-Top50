@@ -10,28 +10,10 @@ import UIKit
 
 class TrendsData: NSObject, UITableViewDataSource {
     
-    let twitterService = TrendsService()
-    let locationService = LocationService()
-    
     let maxTopics = 50
     
     var topics: [Topic]?
     var location: Location?
-    
-    func reload(handler: @escaping ((Error?) -> ())) {
-        reset()
-        locationService.getGeoLocation() {[weak self](location: Location?, error: Error?) in
-            self?.location = location
-            if let currentLocation = location {
-                self?.twitterService.loadTrends(locationId: currentLocation.locationId) {(topics: [Topic]?, error: Error?) in
-                    self?.topics = topics
-                    handler(error)
-                }
-            } else {
-                handler(error)
-            }
-        }
-    }
     
     func reset() {
         location = nil
